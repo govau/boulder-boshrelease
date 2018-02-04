@@ -1,6 +1,9 @@
 ---
 name: boulder
 
-dependencies: []
+dependencies:
+- golang-1.9-linux
 
-files: []
+files:
+- "**/*.go"
+- "**/*.s"

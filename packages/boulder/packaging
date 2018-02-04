@@ -1,1 +1,9 @@
-set -e
+set -eux
+
+source /var/vcap/packages/golang-1.9-linux/bosh/compile.env
+
+mkdir src
+ln -s $PWD/github.com src/github.com
+ln -s $BOSH_INSTALL_TARGET bin
+
+GOPATH=$PWD go install github.com/letsencrypt/boulder/cmd/boulder-{ca,ra,sa,wfe,va}
