@@ -1,0 +1,8 @@
+---
+name: ocsp-responder
+
+templates: {}
+
+packages: []
+
+properties: {}
