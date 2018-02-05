@@ -3,6 +3,7 @@ name: sa
 
 templates:
   ctl.erb: bin/ctl
+  config.json.erb: config/config.json
 
 packages:
 - boulder

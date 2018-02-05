@@ -9,6 +9,35 @@ update:
   update_watch_time: 5000-1200000
 
 instance_groups:
+- name: mysql
+  azs:
+  - z1
+  persistent_disk_type: 10GB
+  instances: 1
+  vm_type: minimal
+  stemcell: default
+  networks:
+  - name: default
+  jobs:
+  - name: mysql
+    release: cf-mysql
+    properties:
+      cf_mysql:
+        mysql:
+          admin_password: "((mysql_root_password))"
+          galera_healthcheck:
+            db_password: "((mysql_galera_healthcheck_password))"
+            endpoint_password: "((mysql_galera_healthcheck_endpoint_password))"
+          cluster_health:
+            password: "((mysql_cluster_health_password))"
+          tls:
+            ca_certificate: "((mysql_server_cert.ca))"
+            server_certificate: "((mysql_server_cert.certificate))"
+            server_key: "((mysql_server_cert.private_key))"
+          seeded_databases:
+          - name: boulder
+            username: boulder
+            password: "((mysql_boulder_password))"
 - name: boulder
   azs:
   - z1
@@ -22,9 +51,37 @@ instance_groups:
     release: boulder
     properties: {}
 
+variables:
+- name: mysql_root_password
+  type: password
+- name: mysql_galera_healthcheck_password
+  type: password
+- name: mysql_galera_healthcheck_endpoint_password
+  type: password
+- name: mysql_cluster_health_password
+  type: password
+- name: mysql_boulder_password
+  type: password
+- name: mysql_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: mysql
+- name: mysql_server_cert
+  type: certificate
+  options:
+    ca: mysql_ca
+    common_name: mysql
+    extended_key_usage:
+    - server_auth
+
 releases:
 - name: boulder
   version: latest
+- name: cf-mysql
+  url: https://bosh.io/d/github.com/cloudfoundry/cf-mysql-release?v=36.10.0
+  version: 36.10.0
+  sha1: dadf405f2305b6f9b625c1e07bd58aa93caf3cbc
 
 stemcells:
 - alias: default
