@@ -2,8 +2,28 @@ set -eux
 
 source /var/vcap/packages/golang-1.9-linux/bosh/compile.env
 
+# Install libtool headers that we need to compile Golang PKCS11 package
+tar -zxf libtool_2.4.2.orig.tar.gz
+cd libtool-2.4.2/
+./configure
+make
+cd ..
+
+# Copy the static library that we'll link to presently
+mkdir staticlibs
+cp libtool-2.4.2/libltdl/.libs/libltdl.a staticlibs/
+
+# Setup Go tree
 mkdir src
 ln -s $PWD/github.com src/github.com
-ln -s $BOSH_INSTALL_TARGET bin
+mkdir $BOSH_INSTALL_TARGET/bin
+ln -s $BOSH_INSTALL_TARGET/bin bin
 
-GOPATH=$PWD go install github.com/letsencrypt/boulder/cmd/boulder-{ca,ra,sa,wfe,va}
+export GOPATH=$PWD
+
+# Work on the hard case first
+CGO_CFLAGS="-I$PWD/libtool-2.4.2/libltdl" CGO_LDFLAGS="-L$PWD/staticlibs" \
+    go install github.com/letsencrypt/boulder/cmd/boulder-ca
+
+# Then the easy ones
+go install github.com/letsencrypt/boulder/cmd/boulder-{ra,sa,wfe,va}

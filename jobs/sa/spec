@@ -1,8 +1,10 @@
 ---
 name: sa
 
-templates: {}
+templates:
+  ctl.erb: bin/ctl
 
-packages: []
+packages:
+- boulder
 
 properties: {}

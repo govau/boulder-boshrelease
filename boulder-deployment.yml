@@ -1,0 +1,32 @@
+---
+name: boulder
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-1200000
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 5000-1200000
+
+instance_groups:
+- name: boulder
+  azs:
+  - z1
+  instances: 1
+  vm_type: minimal
+  stemcell: default
+  networks:
+  - name: default
+  jobs:
+  - name: sa
+    release: boulder
+    properties: {}
+
+releases:
+- name: boulder
+  version: latest
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
