@@ -1,18 +1,17 @@
-
 {
     "SA": {
         "GRPC": {
-            "address": "xx",
-            "clientNames": ["foo", "bar", "baz"],
+            "address": ":<%= p("grpc.port") %>",
+            "clientNames": ["foo", "bar", "baz"]
         },
         "TLS": {
-            "CertFile": "/",
-            "KeyFile": "/",
-            "CACertFile": "/",
+            "CertFile": "/var/vcap/jobs/sa/config/our_cert.pem",
+            "KeyFile": "/var/vcap/jobs/sa/config/our_key.pem",
+            "CACertFile": "/var/vcap/jobs/sa/config/our_ca.pem"
         },
-        "DBConnect": "<%= p("db.username") %>:<%= p("db.password") %>@tcp(<%= p("db.host") %>:<%= p("db.port") %>)/<%= p("db.database") %>",
+        "DBConnect": "<%= p("db.username") %>:<%= p("db.password") %>@tcp(<%= link('database_conn').instances[0].address %>:<%= link('database_conn').p('cf_mysql.mysql.port') %>)/<%= p("db.database") %>",
         "Features": {},
-        "ParallelismPerRPC": 10,
+        "ParallelismPerRPC": 10
     },
     "Syslog": {
     }

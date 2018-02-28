@@ -4,18 +4,25 @@ name: sa
 templates:
   ctl.erb: bin/ctl
   config.json.erb: config/config.json
+  our_ca.pem.erb: config/our_ca.pem
+  our_cert.pem.erb: config/our_cert.pem
+  our_key.pem.erb: config/our_key.pem
 
 packages:
 - boulder
 
+consumes:
+- name: database_conn
+  type: mysql
+
 properties:
+  tls:
+    description: Bosh certificate for ourselves for gRPC
   db.username:
     description: Database username
   db.password:
     description: Database password
-  db.host:
-    description: Database host
-  db.port:
-    description: Database port
   db.database:
     description: Database name
+  grpc.port:
+    description: Port number to listen on

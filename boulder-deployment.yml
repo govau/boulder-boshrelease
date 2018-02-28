@@ -50,12 +50,16 @@ instance_groups:
   - name: sa
     release: boulder
     properties:
+      tls:
+        private_key: ((sa_cert.private_key))
+        certificate: ((sa_cert.certificate))
+        ca: ((sa_cert.ca))
       db:
-        host: xxx
-        port: 3306
         database: boulder
         username: boulder
         password: "((mysql_boulder_password))"
+      grpc:
+        port: 10043
 
 variables:
 - name: mysql_root_password
@@ -79,6 +83,20 @@ variables:
     ca: mysql_ca
     common_name: mysql
     extended_key_usage:
+    - server_auth
+- name: grpc_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: boulder_grpc_ca
+- name: sa_cert
+  type: certificate
+  options:
+    ca: grpc_ca
+    common_name: sa
+    alternative_names: ["*.sa.default.boulder.bosh"]
+    extended_key_usage:
+    - client_auth
     - server_auth
 
 releases:
