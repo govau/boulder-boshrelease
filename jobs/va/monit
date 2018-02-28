@@ -1,0 +1,5 @@
+check process va
+  with pidfile /var/vcap/sys/run/va/pid
+  start program "/var/vcap/jobs/va/bin/ctl start"
+  stop program "/var/vcap/jobs/va/bin/ctl stop"
+  group vcap

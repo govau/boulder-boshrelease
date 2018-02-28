@@ -60,6 +60,17 @@ instance_groups:
         password: "((mysql_boulder_password))"
       grpc:
         port: 10043
+  - name: va
+    release: boulder
+    properties:
+      tls:
+        private_key: ((va_cert.private_key))
+        certificate: ((va_cert.certificate))
+        ca: ((va_cert.ca))
+      grpc:
+        port: 10067
+      debug:
+        port: 10012
 
 variables:
 - name: mysql_root_password
@@ -95,6 +106,15 @@ variables:
     ca: grpc_ca
     common_name: sa
     alternative_names: ["*.sa.default.boulder.bosh"]
+    extended_key_usage:
+    - client_auth
+    - server_auth
+- name: va_cert
+  type: certificate
+  options:
+    ca: grpc_ca
+    common_name: va
+    alternative_names: ["*.va.default.boulder.bosh"]
     extended_key_usage:
     - client_auth
     - server_auth

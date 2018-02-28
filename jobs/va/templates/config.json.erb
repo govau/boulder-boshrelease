@@ -1,0 +1,25 @@
+{
+    "VA": {
+        "GRPC": {
+            "address": ":<%= p("grpc.port") %>",
+            "clientNames": ["foo", "bar", "baz"]
+        },
+        "TLS": {
+            "CertFile": "/var/vcap/jobs/va/config/our_cert.pem",
+            "KeyFile": "/var/vcap/jobs/va/config/our_key.pem",
+            "CACertFile": "/var/vcap/jobs/va/config/our_ca.pem"
+        },
+        "PortConfig": {
+            "HTTPPort": 80,
+            "HTTPSPort": 443,
+            "TLSPort": 443
+        },
+        "DebugAddr": ":<%= p("debug.port") %>"
+    },
+    "Common": {
+        "DNSTimeout": "30s"
+    }
+}
+
+
+   

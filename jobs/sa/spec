@@ -15,6 +15,12 @@ consumes:
 - name: database_conn
   type: mysql
 
+provides:
+- name: sa
+  type: sa
+  properties:
+  - grpc.port
+
 properties:
   tls:
     description: Bosh certificate for ourselves for gRPC
