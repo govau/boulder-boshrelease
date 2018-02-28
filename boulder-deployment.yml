@@ -49,7 +49,13 @@ instance_groups:
   jobs:
   - name: sa
     release: boulder
-    properties: {}
+    properties:
+      db:
+        host: xxx
+        port: 3306
+        database: boulder
+        username: boulder
+        password: "((mysql_boulder_password))"
 
 variables:
 - name: mysql_root_password

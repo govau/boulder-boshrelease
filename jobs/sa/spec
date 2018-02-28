@@ -8,4 +8,14 @@ templates:
 packages:
 - boulder
 
-properties: {}
+properties:
+  db.username:
+    description: Database username
+  db.password:
+    description: Database password
+  db.host:
+    description: Database host
+  db.port:
+    description: Database port
+  db.database:
+    description: Database name
