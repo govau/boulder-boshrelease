@@ -1,0 +1,31 @@
+{
+    "CA": {
+        "GRPCCA": {
+            "address": ":<%= p("grpc.port") %>",
+            "clientNames": ["foo"]
+        },
+        "TLS": {
+            "CertFile": "/var/vcap/jobs/ca/config/our_cert.pem",
+            "KeyFile": "/var/vcap/jobs/ca/config/our_key.pem",
+            "CACertFile": "/var/vcap/jobs/ca/config/our_ca.pem"
+        },
+        "DebugAddr": ":<%= p("debug.port") %>",
+        "Issuers": [{
+            "CertFile": "/var/vcap/jobs/ca/config/actual_ca_cert.pem",
+            "File": "/var/vcap/jobs/ca/config/actual_ca_key.pem"
+        }],
+        "Expiry": "2160h",
+        "Backdate": "1h",
+        "MaxNames": 100,
+        "SAService": {
+            "ServerAddresses": ["<%= link('sa').instances[0].address %>"],
+            "Timeout": "30s"
+        }
+    },
+    "PA": {
+        "Challenges": {
+            "http-01": true,
+            "dns-01": true
+        }
+    }
+}

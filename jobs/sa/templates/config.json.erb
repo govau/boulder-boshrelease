@@ -9,10 +9,8 @@
             "KeyFile": "/var/vcap/jobs/sa/config/our_key.pem",
             "CACertFile": "/var/vcap/jobs/sa/config/our_ca.pem"
         },
+        "DebugAddr": ":<%= p("debug.port") %>",
         "DBConnect": "<%= p("db.username") %>:<%= p("db.password") %>@tcp(<%= link('database_conn').instances[0].address %>:<%= link('database_conn').p('cf_mysql.mysql.port') %>)/<%= p("db.database") %>",
-        "Features": {},
         "ParallelismPerRPC": 10
-    },
-    "Syslog": {
     }
 }

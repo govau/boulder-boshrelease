@@ -1,8 +1,34 @@
 ---
 name: ca
 
-templates: {}
+templates:
+  ctl.erb: bin/ctl
+  config.json.erb: config/config.json
+  our_ca.pem.erb: config/our_ca.pem
+  our_cert.pem.erb: config/our_cert.pem
+  our_key.pem.erb: config/our_key.pem
+  actual_ca_key.pem.erb: config/actual_ca_key.pem
+  actual_ca_cert.pem.erb: config/actual_ca_cert.pem
 
-packages: []
+packages:
+- boulder
 
-properties: {}
+consumes:
+- name: sa
+  type: sa
+
+provides:
+- name: ca
+  type: ca
+  properties:
+  - grpc.port
+
+properties:
+  tls:
+    description: Bosh certificate for ourselves for gRPC
+  grpc.port:
+    description: Port number to listen on
+  ca:
+    description: Bosh certificate for the actual CA
+  debug.port:
+    description: Port number for metrics etc

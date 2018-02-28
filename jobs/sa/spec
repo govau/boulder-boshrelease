@@ -24,6 +24,8 @@ provides:
 properties:
   tls:
     description: Bosh certificate for ourselves for gRPC
+  debug.port:
+    description: Port number for metrics etc
   db.username:
     description: Database username
   db.password:
